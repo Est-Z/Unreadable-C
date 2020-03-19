@@ -23,6 +23,7 @@ typedef struct{
     LinkNode *rear;
 }LinkHead;
 
+/** 初始化链*/
 LinkHead* init_LinkList(int *value,int length){
 
     LinkHead *head = (LinkHead*)malloc(sizeof(LinkHead));
@@ -35,6 +36,7 @@ LinkHead* init_LinkList(int *value,int length){
     return head;
 }
 
+/** 链尾插入*/
 void listAddRear(LinkHead *head,int e){
     LinkNode* tmp = (LinkNode*)malloc(sizeof(LinkNode));
     tmp->next = NULL;
@@ -50,6 +52,7 @@ void listAddRear(LinkHead *head,int e){
     head->length++;
 }
 
+/** 链头插入*/
 void listAddfront(LinkHead *head,int e){
     LinkNode* tmp = (LinkNode*)malloc(sizeof(LinkNode));
     tmp->next = NULL;
@@ -64,6 +67,43 @@ void listAddfront(LinkHead *head,int e){
     }
     head->length++;
 
+}
+
+/** 链尾删除*/
+void listDeteRear(LinkHead *head){
+    if(isEmpty(head)) return ;
+
+    if(head->head == head->rear){
+        free(head->head);
+        head->head = NULL;
+        head->rear = NULL;
+    }else{
+
+        LinkNode* tmp = head->head;
+        while(tmp->next != head->rear){
+            tmp = tmp->next;
+        }
+        free(head->rear);
+        head->rear = tmp;
+    }
+    head->length--;
+}
+
+/** 链头删除*/
+void listDeteFront(LinkHead *head){
+    if(isEmpty(head)) return ;
+
+    if(head->head == head->rear){
+        free(head->head);
+        head->head = NULL;
+        head->rear = NULL;
+    }else{
+        LinkNode *tmp = head->head;
+        head->head = tmp->next;
+        free(tmp);
+    }
+
+    head->length--;
 }
 int isEmpty(LinkHead *head){
     if(0 == head->length)
@@ -96,8 +136,14 @@ void freeList(LinkHead *head){
 
 /** queue*/
 
+/** 入队*/
+void enQueue(LinkHead *head,int e){
+    listAddRear(head,e);
+}
 
-
-
+/** 出队*/
+void exQueue(LinkHead *head){
+    listDeteFront(head);
+}
 /** stack*/
 #endif // DATASTRUCTURE_H_INCLUDED
